@@ -7,6 +7,10 @@ from infrastructure.database import database
 
 
 class SQLModelUserRepository(UserRepository):
+    def get_all(self) -> list[User]:
+        with database.get_session() as session:
+            return session.exec(select(User)).all()
+
     def get_by_id(self, user_id: int) -> Optional[User]:
         with database.get_session() as session:
             return session.get(User, user_id)
